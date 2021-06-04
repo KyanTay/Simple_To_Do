@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         etUserInputAdd = findViewById(R.id.etUserInput);
         etUserInputDelete = findViewById(R.id.etUserInput);
         btnAdd = findViewById(R.id.buttonAdd);
-        btnDelete = findViewById(R.id.btnDeleteColour);
-        btnUpdate = findViewById(R.id.btnUpdateColour);
+        btnDelete = findViewById(R.id.btnDeleteItems);
+        btnUpdate = findViewById(R.id.btnUpdateItem);
         spnAddDelete = findViewById(R.id.spnAddDelete);
         lvThingsToDo = findViewById(R.id.listViewColour);
 
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter aaThingsToDo = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alThingsToDo);
         lvThingsToDo.setAdapter(aaThingsToDo);
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newTasks = etUserInputAdd.getText().toString();
+
                 alThingsToDo.add(newTasks);
                 aaThingsToDo.notifyDataSetChanged();
             }
@@ -59,14 +59,16 @@ public class MainActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(alThingsToDo.isEmpty()){
-                    Toast.makeText(MainActivity.this,"You don't have any task to remove"
-                            ,Toast.LENGTH_SHORT).show();
-                }
+
                 int pos = Integer.parseInt(etUserInputDelete.getText().toString());
-                if(alThingsToDo.equals(alThingsToDo)){
+
+                if(pos < alThingsToDo.size()){
                     alThingsToDo.remove(pos);
                     aaThingsToDo.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Wrong index number"
+                            ,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -91,14 +93,15 @@ public class MainActivity extends AppCompatActivity {
                         if(alThingsToDo.isEmpty()){
                             btnDelete.setEnabled(false);
                         }
-                        else if(!alThingsToDo.isEmpty()){
-                            btnDelete.setEnabled(true);
-                        }
                         break;
                     case 1:
                         etUserInputDelete.setHint("Type in the index of the task to be removed");
                         btnAdd.setEnabled(false);
                         btnDelete.setEnabled(true);
+                        if(alThingsToDo.isEmpty()){
+                            Toast.makeText(MainActivity.this,"You don't have any task to remove"
+                                    ,Toast.LENGTH_SHORT).show();
+                        }
                 }
             }
 
@@ -107,15 +110,5 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Nothing has been picked",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//
-//        lvColour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String colors = alColours.get(position);
-//                Toast.makeText(MainActivity.this,"You have selected " + colors, Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }
