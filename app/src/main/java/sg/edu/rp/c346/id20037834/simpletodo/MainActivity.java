@@ -9,20 +9,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etElement;
-    EditText etIndexElement;
+    EditText etUserInputAdd;
+    EditText etUserInputDelete;
     Button btnAdd;
     Button btnDelete;
     Button btnUpdate;
-    ListView lvColour;
+    Spinner spnAddDelete;
+    ListView lvThingsToDo;
 
-    ArrayList<String> alColours;
+    ArrayList<String> alThingsToDo;
 
 
     @Override
@@ -30,61 +32,76 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etElement = findViewById(R.id.etTextColour);
-        etIndexElement = findViewById(R.id.etPosition);
+        etUserInputAdd = findViewById(R.id.etUserInput);
+        etUserInputDelete = findViewById(R.id.etUserInput);
         btnAdd = findViewById(R.id.buttonAdd);
         btnDelete = findViewById(R.id.btnDeleteColour);
         btnUpdate = findViewById(R.id.btnUpdateColour);
-        lvColour = findViewById(R.id.listViewColour);
+        spnAddDelete = findViewById(R.id.spnAddDelete);
+        lvThingsToDo = findViewById(R.id.listViewColour);
 
 
-        alColours = new ArrayList<String>();
-        alColours.add("Red");
-        alColours.add("Orange");
+        alThingsToDo = new ArrayList<String>();
 
-        ArrayAdapter aaColours = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alColours);
-        lvColour.setAdapter(aaColours);
+        ArrayAdapter aaThingsToDo = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alThingsToDo);
+        lvThingsToDo.setAdapter(aaThingsToDo);
+
+        if(alThingsToDo.isEmpty()){
+            btnDelete.setActivated(false);
+        }
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String colour = etElement.getText().toString();
-//                alColours.add(colour)
-                int pos = Integer.parseInt(etIndexElement.getText().toString());
-                alColours.add(pos,colour);
-                aaColours.notifyDataSetChanged();
+                String newTasks = etUserInputAdd.getText().toString();
+                alThingsToDo.add(newTasks);
+                aaThingsToDo.notifyDataSetChanged();
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = Integer.parseInt(etIndexElement.getText().toString());
-                if (!alColours.isEmpty()) {
-                    alColours.remove(pos);
-                    aaColours.notifyDataSetChanged();
-                }
+
             }
         });
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = Integer.parseInt(etIndexElement.getText().toString());
-                String newItem = etElement.getText().toString();
-                if(!alColours.isEmpty()){
-                    alColours.set(pos,newItem);
-                    aaColours.notifyDataSetChanged();
+                if (!alThingsToDo.isEmpty()) {
+                    alThingsToDo.clear();
+                    aaThingsToDo.notifyDataSetChanged();
                 }
             }
         });
 
-        lvColour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spnAddDelete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String colors = alColours.get(position);
-                Toast.makeText(MainActivity.this,"You have selected " + colors, Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        etUserInputAdd.setHint("Type in a new task here");
+                        break;
+                    case 1:
+                        etUserInputDelete.setHint("Type in the index of the task to be removed");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(MainActivity.this,"Nothing has been picked",Toast.LENGTH_SHORT).show();
             }
         });
+
+
+//
+//        lvColour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String colors = alColours.get(position);
+//                Toast.makeText(MainActivity.this,"You have selected " + colors, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/etTextColour"
+    <Spinner
+        android:id="@+id/spnAddDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Enter colour here" />
+        android:entries="@array/spnDeleteOrAdd"/>
 
     <EditText
-        android:id="@+id/etPosition"
+        android:id="@+id/etUserInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Enter position" />
+        android:hint="Enter a new task"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="@string/btnNewColour" />
+            android:text="@string/btnAdd" />
 
         <Button
             android:id="@+id/btnDeleteColour"
@@ -41,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="@string/btnDeleteColour" />
+            android:text="@string/btnDelete" />
 
         <Button
             android:id="@+id/btnUpdateColour"
@@ -49,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="@string/btnUpdateColour" />
+            android:text="@string/btnClear" />
 
     </LinearLayout>
 
