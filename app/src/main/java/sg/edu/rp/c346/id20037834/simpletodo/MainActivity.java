@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter aaThingsToDo = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alThingsToDo);
         lvThingsToDo.setAdapter(aaThingsToDo);
 
-        if(alThingsToDo.isEmpty()){
-            btnDelete.setActivated(false);
-        }
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +59,15 @@ public class MainActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(alThingsToDo.isEmpty()){
+                    Toast.makeText(MainActivity.this,"You don't have any task to remove"
+                            ,Toast.LENGTH_SHORT).show();
+                }
+                int pos = Integer.parseInt(etUserInputDelete.getText().toString());
+                if(alThingsToDo.equals(alThingsToDo)){
+                    alThingsToDo.remove(pos);
+                    aaThingsToDo.notifyDataSetChanged();
+                }
             }
         });
 
@@ -82,9 +87,18 @@ public class MainActivity extends AppCompatActivity {
                 switch(position){
                     case 0:
                         etUserInputAdd.setHint("Type in a new task here");
+                        btnAdd.setEnabled(true);
+                        if(alThingsToDo.isEmpty()){
+                            btnDelete.setEnabled(false);
+                        }
+                        else if(!alThingsToDo.isEmpty()){
+                            btnDelete.setEnabled(true);
+                        }
                         break;
                     case 1:
                         etUserInputDelete.setHint("Type in the index of the task to be removed");
+                        btnAdd.setEnabled(false);
+                        btnDelete.setEnabled(true);
                 }
             }
 
